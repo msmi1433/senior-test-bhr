@@ -17,6 +17,10 @@ type Absence = {
   startDate: string;
 };
 
+type Conflict = {
+  conflicts: boolean;
+};
+
 export const fetchAbsences = async () => {
   try {
     const { data }: { data: Absence[] } = await api.get("absences");
@@ -28,7 +32,9 @@ export const fetchAbsences = async () => {
 
 export const fetchConflict = async (conflictId: number) => {
   try {
-    const { data } = await api.get(`conflict/${conflictId}`);
+    const { data }: { data: Conflict } = await api.get(
+      `conflict/${conflictId}`
+    );
     return data;
   } catch (error) {
     console.error(error);
