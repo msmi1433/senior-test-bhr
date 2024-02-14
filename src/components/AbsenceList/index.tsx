@@ -10,13 +10,22 @@ const AbsenceList = () => {
 
   return (
     <div>
-      <ul className="list-none">
-        {data?.map((absence) => (
-          <li className="py-3" key={absence.id}>
+      <table className="w-full">
+        <thead>
+          <tr className="flex justify-start gap-10 text-left">
+            <th className="w-1/5">Name</th>
+            <th className="w-1/5">Absence Type</th>
+            <th className="w-1/5">Start Date</th>
+            <th className="w-1/5">End Date</th>
+            <th className="w-1/5">Approval Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data?.map((absence) => (
             <AbsenceItem absence={absence} />
-          </li>
-        ))}
-      </ul>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };

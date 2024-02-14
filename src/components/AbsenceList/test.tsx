@@ -45,10 +45,10 @@ describe("AbsenceList", () => {
         <AbsenceList />
       </QueryClientProvider>
     );
-    const list = await screen.findByRole("list");
-    const { findAllByRole } = within(list);
-    const items = await findAllByRole("listitem");
-    expect(items.length).toBe(2);
+    const table = await screen.findByRole("table");
+    const { findAllByRole } = within(table);
+    const items = await findAllByRole("row");
+    expect(items.length).toBe(3);
   });
 
   test("renders list with correct end dates", async () => {
@@ -58,10 +58,10 @@ describe("AbsenceList", () => {
         <AbsenceList />
       </QueryClientProvider>
     );
-    const list = await screen.findByRole("list");
-    const { getByText } = within(list);
-    const rahafDate = getByText("End Date: 06/06/2022");
-    const enyaDate = getByText("End Date: 13/02/2022");
+    const table = await screen.findByRole("table");
+    const { getByText } = within(table);
+    const rahafDate = getByText("06/06/2022");
+    const enyaDate = getByText("13/02/2022");
     expect(rahafDate).toBeInTheDocument();
     expect(enyaDate).toBeInTheDocument();
   });
