@@ -10,7 +10,6 @@ function App() {
       <main className="p-8">
         <AbsenceList />
       </main>
-      ;
     </QueryClientProvider>
   );
 }

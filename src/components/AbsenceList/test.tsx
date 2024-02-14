@@ -10,7 +10,7 @@ afterEach(() => {
 });
 
 const queryClient = new QueryClient();
-const returnVal = [
+const mockAbsenceData = [
   {
     id: 0,
     startDate: "2022-05-28T04:39:06.470Z",
@@ -39,7 +39,7 @@ const returnVal = [
 
 describe("AbsenceList", () => {
   test("renders list of absences", async () => {
-    (fetchAbsences as jest.Mock).mockReturnValue(returnVal);
+    (fetchAbsences as jest.Mock).mockReturnValue(mockAbsenceData);
     render(
       <QueryClientProvider client={queryClient}>
         <AbsenceList />
@@ -52,7 +52,7 @@ describe("AbsenceList", () => {
   });
 
   test("renders list with correct end dates", async () => {
-    (fetchAbsences as jest.Mock).mockReturnValue(returnVal);
+    (fetchAbsences as jest.Mock).mockReturnValue(mockAbsenceData);
     render(
       <QueryClientProvider client={queryClient}>
         <AbsenceList />
