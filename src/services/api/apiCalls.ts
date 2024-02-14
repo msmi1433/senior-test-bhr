@@ -1,25 +1,9 @@
 import axios from "axios";
+import { Conflict, Absence } from "../../types";
 
 const api = axios.create({
   baseURL: "https://front-end-kata.brighthr.workers.dev/api/",
 });
-
-type Absence = {
-  absenceType: string;
-  approved: boolean;
-  days: number;
-  employee: {
-    firstName: string;
-    id: string;
-    lastName: string;
-  };
-  id: number;
-  startDate: string;
-};
-
-type Conflict = {
-  conflicts: boolean;
-};
 
 export const fetchAbsences = async () => {
   try {
