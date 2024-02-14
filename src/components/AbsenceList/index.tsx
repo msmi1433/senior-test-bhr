@@ -22,7 +22,7 @@ const AbsenceList = () => {
         </thead>
         <tbody>
           {data?.map((absence) => (
-            <AbsenceItem absence={absence} />
+            <AbsenceItem key={absence.id} absence={absence} />
           ))}
         </tbody>
       </table>
