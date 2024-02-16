@@ -8,7 +8,11 @@ type Props = {
 
 const AbsenceItem = ({ absence }: Props) => {
   return (
-    <tr className="flex justify-start gap-10 py-0.5">
+    <tr
+      className={`flex justify-start gap-10 py-0.5 ${
+        absence.conflicts && "bg-red-400"
+      }`}
+    >
       <td className="w-1/5">
         <EmployeeItem employee={absence.employee} />
       </td>
