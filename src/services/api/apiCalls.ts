@@ -17,12 +17,16 @@ const fetchConflicts = async (conflictId: number): Promise<Conflict> => {
 };
 
 export const fetchAbsences = async (): Promise<Absence[]> => {
-  const { data } = await api.get("absences");
-  const absencesWithConflicts = Promise.all(
-    data.map(async (absence: Absence) => {
-      const { conflicts } = await fetchConflicts(absence.id);
-      return { ...absence, conflicts };
-    })
-  );
-  return await absencesWithConflicts;
+  try {
+    const { data } = await api.get("absences");
+    const absencesWithConflicts = Promise.all(
+      data.map(async (absence: Absence) => {
+        const { conflicts } = await fetchConflicts(absence.id);
+        return { ...absence, conflicts };
+      })
+    );
+    return await absencesWithConflicts;
+  } catch (error) {
+    throw new Error("Absences not found");
+  }
 };
