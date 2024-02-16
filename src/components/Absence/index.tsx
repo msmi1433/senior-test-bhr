@@ -7,6 +7,7 @@ type Props = {
 };
 
 const AbsenceItem = ({ absence }: Props) => {
+  console.log(absence);
   return (
     <tr className="flex justify-start gap-10 py-0.5">
       <td className="w-1/5">

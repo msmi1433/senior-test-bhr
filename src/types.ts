@@ -11,6 +11,7 @@ export type Absence = {
   employee: Employee;
   id: number;
   startDate: string;
+  conflicts: boolean;
 };
 
 export type Conflict = {

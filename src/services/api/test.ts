@@ -1,16 +1,21 @@
-import { fetchAbsences, fetchConflict } from "./apiCalls";
-import * as absences from "../../../data/absences.json";
+import { fetchAbsences } from "./apiCalls";
 
 describe("fetchAbsences", () => {
   test("returns list of absences", async () => {
     const response = await fetchAbsences();
-    expect(response).toEqual(absences);
+    response.forEach((absence) => {
+      expect(absence).toHaveProperty("absenceType");
+      expect(absence).toHaveProperty("approved");
+      expect(absence).toHaveProperty("days");
+      expect(absence).toHaveProperty("employee");
+      expect(absence).toHaveProperty("id");
+      expect(absence).toHaveProperty("startDate");
+    });
   });
-});
-
-describe("fetchConflict", () => {
-  test("returns conflict based on provided ID", async () => {
-    const response = await fetchConflict(4);
-    expect(response).toEqual({ conflicts: true });
+  test("appends conflicts to absence objects", async () => {
+    const response = await fetchAbsences();
+    response.forEach((absence) => {
+      expect(absence).toHaveProperty("conflicts");
+    });
   });
 });
