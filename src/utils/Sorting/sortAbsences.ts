@@ -5,7 +5,7 @@ export const sortAbsences = (
   sortedColumn: string,
   sortedDirection: string
 ) => {
-  data.sort((a: Absence, b: Absence) => {
+  data?.sort((a: Absence, b: Absence) => {
     if (sortedColumn === "name") {
       if (a.employee.firstName < b.employee.firstName) return -1;
       if (a.employee.firstName > b.employee.firstName) return 1;

@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { fetchAbsences } from "../../services/api/apiCalls";
 
 jest.mock("../../services/api/apiCalls");
+
 afterEach(() => {
   queryClient.clear();
 });
@@ -13,7 +14,8 @@ const queryClient = new QueryClient();
 const mockAbsenceData = [
   {
     id: 0,
-    startDate: "2022-05-28T04:39:06.470Z",
+    startDate: "Sat May 28 2022 05:39:06 GMT+0100 (British Summer Time)",
+    endDate: "Mon Jun 06 2022 05:39:06 GMT+0100 (British Summer Time)",
     days: 9,
     absenceType: "SICKNESS",
     employee: {
@@ -25,7 +27,8 @@ const mockAbsenceData = [
   },
   {
     id: 1,
-    startDate: "2022-02-08T08:02:47.543Z",
+    startDate: "Tue Feb 08 2022 08:02:47 GMT+0000 (Greenwich Mean Time)",
+    endDate: "Sun Feb 13 2022 08:02:47 GMT+0000 (Greenwich Mean Time)",
     days: 5,
     absenceType: "ANNUAL_LEAVE",
     employee: {
@@ -37,9 +40,10 @@ const mockAbsenceData = [
   },
 ];
 
-describe("AbsenceList", () => {
+describe.only("AbsenceList", () => {
   test("renders list of absences", async () => {
     (fetchAbsences as jest.Mock).mockReturnValue(mockAbsenceData);
+
     render(
       <QueryClientProvider client={queryClient}>
         <AbsenceList />

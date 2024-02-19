@@ -1,7 +1,7 @@
 import { UseQueryResult, useQuery } from "@tanstack/react-query";
 import { fetchAbsences } from "../../services/api/apiCalls";
 import AbsenceItem from "../Absence";
-import { useCallback, useState } from "react";
+import { useState, useCallback } from "react";
 import { sortAbsences } from "../../utils/Sorting/sortAbsences";
 import { Absence } from "../../types";
 
@@ -9,7 +9,7 @@ const AbsenceList = () => {
   const [sortedColumn, setSortedColumn] = useState<string>("");
   const [sortedDirection, setSortedDirection] = useState<string>("DESC");
 
-  const { data }: UseQueryResult<Absence[], Error> = useQuery({
+  const { data, isLoading }: UseQueryResult<Absence[], Error> = useQuery({
     queryKey: ["absences"],
     queryFn: fetchAbsences,
     select: useCallback(
@@ -25,6 +25,8 @@ const AbsenceList = () => {
       setSortedDirection("ASC");
     }
   };
+
+  if (isLoading) return <p>Loading</p>;
 
   return (
     <div>
