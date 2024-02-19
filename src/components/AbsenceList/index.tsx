@@ -1,56 +1,21 @@
-import { useQuery } from "@tanstack/react-query";
+import { UseQueryResult, useQuery } from "@tanstack/react-query";
 import { fetchAbsences } from "../../services/api/apiCalls";
 import AbsenceItem from "../Absence";
-import { Absence } from "../../types";
 import { useCallback, useState } from "react";
+import { sortAbsences } from "../../utils/Sorting/sortAbsences";
+import { Absence } from "../../types";
 
 const AbsenceList = () => {
-  const [sortedColumn, setSortedColumn] = useState<string | null>(null);
-  const [sortedDirection, setSortedDirection] = useState<string | null>("DESC");
+  const [sortedColumn, setSortedColumn] = useState<string>("");
+  const [sortedDirection, setSortedDirection] = useState<string>("DESC");
 
-  const sortAbsences = useCallback(
-    (data: Absence[]) => {
-      switch (sortedColumn) {
-        case "startDate":
-          data.sort((a: Absence, b: Absence) => {
-            return a.startDate.valueOf() - b.startDate.valueOf();
-          });
-          return sortedDirection === "ASC" ? data : data.reverse();
-        case "endDate":
-          data.sort((a: Absence, b: Absence) => {
-            return a.endDate.valueOf() - b.endDate.valueOf();
-          });
-          return sortedDirection === "ASC" ? data : data.reverse();
-        case "name":
-          data.sort((a: Absence, b: Absence) => {
-            if (a.employee.firstName < b.employee.firstName) return -1;
-            if (a.employee.firstName > b.employee.firstName) return 1;
-            return 0;
-          });
-          return sortedDirection === "ASC" ? data : data.reverse();
-        case "approvalStatus":
-          data.sort((a: Absence, b: Absence) => {
-            return Number(a.approved) - Number(b.approved);
-          });
-          return sortedDirection === "DESC" ? data : data.reverse();
-        case "absenceType":
-          data.sort((a: Absence, b: Absence) => {
-            if (a.absenceType < b.absenceType) return -1;
-            if (a.absenceType > b.absenceType) return 1;
-            return 0;
-          });
-          return sortedDirection === "ASC" ? data : data.reverse();
-        default:
-          return data;
-      }
-    },
-    [sortedColumn, sortedDirection]
-  );
-
-  const { data } = useQuery({
+  const { data }: UseQueryResult<Absence[], Error> = useQuery({
     queryKey: ["absences"],
     queryFn: fetchAbsences,
-    select: (data) => sortAbsences(data),
+    select: useCallback(
+      (data: Absence[]) => sortAbsences(data, sortedColumn, sortedDirection),
+      [sortedColumn, sortedDirection]
+    ),
   });
 
   console.log(data);

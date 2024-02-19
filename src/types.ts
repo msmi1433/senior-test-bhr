@@ -5,6 +5,13 @@ export type Employee = {
 };
 
 export type Absence = {
+  [index: string]:
+    | string
+    | boolean
+    | number
+    | Date
+    | Employee
+    | (() => Absence[]);
   absenceType: string;
   approved: boolean;
   days: number;
