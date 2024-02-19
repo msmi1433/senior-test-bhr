@@ -18,8 +18,13 @@ const AbsenceList = () => {
     ),
   });
 
-  console.log(data);
-  console.log(sortedDirection);
+  const handleSortClick = () => {
+    if (sortedDirection === "ASC") {
+      setSortedDirection("DESC");
+    } else if (sortedDirection === "DESC") {
+      setSortedDirection("ASC");
+    }
+  };
 
   return (
     <div>
@@ -30,11 +35,7 @@ const AbsenceList = () => {
               className="w-1/5"
               onClick={() => {
                 setSortedColumn("name");
-                if (sortedDirection === "ASC") {
-                  setSortedDirection("DESC");
-                } else if (sortedDirection === "DESC") {
-                  setSortedDirection("ASC");
-                }
+                handleSortClick();
               }}
             >
               Name
@@ -43,11 +44,7 @@ const AbsenceList = () => {
               className="w-1/5"
               onClick={() => {
                 setSortedColumn("absenceType");
-                if (sortedDirection === "ASC") {
-                  setSortedDirection("DESC");
-                } else if (sortedDirection === "DESC") {
-                  setSortedDirection("ASC");
-                }
+                handleSortClick();
               }}
             >
               Absence Type
@@ -56,11 +53,7 @@ const AbsenceList = () => {
               className="w-1/5"
               onClick={() => {
                 setSortedColumn("startDate");
-                if (sortedDirection === "ASC") {
-                  setSortedDirection("DESC");
-                } else if (sortedDirection === "DESC") {
-                  setSortedDirection("ASC");
-                }
+                handleSortClick();
               }}
             >
               Start Date
@@ -69,11 +62,7 @@ const AbsenceList = () => {
               className="w-1/5"
               onClick={() => {
                 setSortedColumn("endDate");
-                if (sortedDirection === "ASC") {
-                  setSortedDirection("DESC");
-                } else if (sortedDirection === "DESC") {
-                  setSortedDirection("ASC");
-                }
+                handleSortClick();
               }}
             >
               End Date
@@ -81,12 +70,8 @@ const AbsenceList = () => {
             <th
               className="w-1/5"
               onClick={() => {
-                setSortedColumn("approvalStatus");
-                if (sortedDirection === "ASC") {
-                  setSortedDirection("DESC");
-                } else if (sortedDirection === "DESC") {
-                  setSortedDirection("ASC");
-                }
+                setSortedColumn("approved");
+                handleSortClick();
               }}
             >
               Approval Status

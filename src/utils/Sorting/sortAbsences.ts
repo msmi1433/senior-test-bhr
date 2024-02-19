@@ -16,5 +16,11 @@ export const sortAbsences = (
       return 0;
     }
   });
-  return sortedDirection === "ASC" ? data : data.reverse();
+  return sortedColumn === "approved"
+    ? sortedDirection === "DESC"
+      ? data
+      : data.reverse()
+    : sortedDirection === "ASC"
+    ? data
+    : data.reverse();
 };
