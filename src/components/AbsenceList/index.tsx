@@ -20,6 +20,13 @@ const AbsenceList = () => {
           return a.endDate.valueOf() - b.endDate.valueOf();
         });
         return sortedDirection === "ASC" ? data : data.reverse();
+      case "name":
+        data.sort((a: Absence, b: Absence) => {
+          if (a.employee.firstName < b.employee.firstName) return -1;
+          if (a.employee.firstName > b.employee.firstName) return 1;
+          return 0;
+        });
+        return sortedDirection === "ASC" ? data : data.reverse();
       default:
         return data;
     }
@@ -39,7 +46,21 @@ const AbsenceList = () => {
       <table className="w-full">
         <thead>
           <tr className="flex justify-start gap-10 text-left">
-            <th className="w-1/5">Name</th>
+            <th
+              className="w-1/5"
+              onClick={() => {
+                setSortedColumn("name");
+                if (sortedDirection === "ASC") {
+                  setSortedDirection("DESC");
+                  data?.select();
+                } else if (sortedDirection === "DESC") {
+                  setSortedDirection("ASC");
+                  data?.select();
+                }
+              }}
+            >
+              Name
+            </th>
             <th className="w-1/5">Absence Type</th>
             <th
               className="w-1/5"
