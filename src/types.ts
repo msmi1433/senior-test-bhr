@@ -10,8 +10,10 @@ export type Absence = {
   days: number;
   employee: Employee;
   id: number;
-  startDate: string;
+  startDate: Date;
+  endDate: Date;
   conflicts: boolean;
+  select: () => Absence[];
 };
 
 export type Conflict = {

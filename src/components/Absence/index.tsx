@@ -1,6 +1,6 @@
 import { Absence } from "../../types";
 import EmployeeItem from "../Employee";
-import { format, addDays } from "date-fns";
+import { format } from "date-fns";
 
 type Props = {
   absence: Absence;
@@ -23,12 +23,7 @@ const AbsenceItem = ({ absence }: Props) => {
         <p>{format(absence.startDate, "dd/MM/yyyy")}</p>
       </td>
       <td className="w-1/5">
-        <p>
-          {format(
-            addDays(new Date(absence.startDate), absence.days),
-            "dd/MM/yyyy"
-          )}
-        </p>
+        <p>{format(absence.endDate, "dd/MM/yyyy")}</p>
       </td>
       <td className="w-1/5">
         <p>{absence.approved ? "Approved" : "Pending approval"}</p>
