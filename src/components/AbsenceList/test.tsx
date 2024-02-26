@@ -3,6 +3,7 @@ import "@testing-library/jest-dom";
 import AbsenceList from ".";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { fetchAbsences } from "../../services/api/apiCalls";
+import userEvent from "@testing-library/user-event";
 
 jest.mock("../../services/api/apiCalls");
 
@@ -36,11 +37,11 @@ const mockAbsenceData = [
       lastName: "Behm",
       id: "84502153-69e6-4561-b2de-8f21f97530d3",
     },
-    approved: true,
+    approved: false,
   },
 ];
 
-describe.only("AbsenceList", () => {
+describe("AbsenceList", () => {
   test("renders list of absences", async () => {
     (fetchAbsences as jest.Mock).mockReturnValue(mockAbsenceData);
 
@@ -68,5 +69,60 @@ describe.only("AbsenceList", () => {
     const enyaDate = getByText("13/02/2022");
     expect(rahafDate).toBeInTheDocument();
     expect(enyaDate).toBeInTheDocument();
+  });
+
+  describe.only("Sort options", () => {
+    test("Can sort by name", async () => {
+      (fetchAbsences as jest.Mock).mockReturnValue(mockAbsenceData);
+      const user = userEvent.setup();
+      render(
+        <QueryClientProvider client={queryClient}>
+          <AbsenceList />
+        </QueryClientProvider>
+      );
+      const table = await screen.findByRole("table");
+      const { findAllByRole } = within(table);
+      await user.click(screen.getByText("Name"));
+      let items = await findAllByRole("row");
+      expect(items[1]).toHaveTextContent("Enya");
+      await user.click(screen.getByText("Name"));
+      items = await findAllByRole("row");
+      expect(items[1]).toHaveTextContent("Rahaf");
+    });
+    test("Can sort by absence type", async () => {
+      (fetchAbsences as jest.Mock).mockReturnValue(mockAbsenceData);
+      const user = userEvent.setup();
+      render(
+        <QueryClientProvider client={queryClient}>
+          <AbsenceList />
+        </QueryClientProvider>
+      );
+      const table = await screen.findByRole("table");
+      const { findAllByRole } = within(table);
+      await user.click(screen.getByText("Absence Type"));
+      let items = await findAllByRole("row");
+      expect(items[1]).toHaveTextContent("ANNUAL_LEAVE");
+      await user.click(screen.getByText("Absence Type"));
+      items = await findAllByRole("row");
+      expect(items[1]).toHaveTextContent("SICKNESS");
+    });
+    test.only("Can sort by start date", async () => {
+      (fetchAbsences as jest.Mock).mockReturnValue(mockAbsenceData);
+      const user = userEvent.setup();
+      render(
+        <QueryClientProvider client={queryClient}>
+          <AbsenceList />
+        </QueryClientProvider>
+      );
+      const table = await screen.findByRole("table");
+      const { findAllByRole } = within(table);
+      await user.click(screen.getByText("Start Date"));
+
+      let items = await findAllByRole("row");
+      expect(items[1]).toHaveTextContent("08/02/2022");
+      await user.click(screen.getByText("Start Date"));
+      items = await findAllByRole("row");
+      expect(items[1]).toHaveTextContent("28/05/2022");
+    });
   });
 });
