@@ -20,7 +20,6 @@ export type Absence = {
   startDate: Date;
   endDate: Date;
   conflicts: boolean;
-  select: () => Absence[];
 };
 
 export type Conflict = {
