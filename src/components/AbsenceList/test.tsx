@@ -9,10 +9,10 @@ import { sortAbsences } from "../../utils/Sorting/sortAbsences";
 jest.mock("../../services/api/apiCalls");
 
 afterEach(() => {
-  queryClient.clear();
+  mockQueryClient.clear();
 });
 
-const queryClient = new QueryClient();
+const mockQueryClient = new QueryClient();
 const mockAbsenceData = sortAbsences(
   [
     {
@@ -79,7 +79,7 @@ describe("AbsenceList", () => {
     (fetchAbsences as jest.Mock).mockReturnValue(mockAbsenceData);
 
     render(
-      <QueryClientProvider client={queryClient}>
+      <QueryClientProvider client={mockQueryClient}>
         <AbsenceList />
       </QueryClientProvider>
     );
@@ -92,7 +92,7 @@ describe("AbsenceList", () => {
   test("renders list with correct end dates", async () => {
     (fetchAbsences as jest.Mock).mockReturnValue(mockAbsenceData);
     render(
-      <QueryClientProvider client={queryClient}>
+      <QueryClientProvider client={mockQueryClient}>
         <AbsenceList />
       </QueryClientProvider>
     );
@@ -109,7 +109,7 @@ describe("AbsenceList", () => {
       (fetchAbsences as jest.Mock).mockReturnValue(mockAbsenceData);
       const user = userEvent.setup();
       render(
-        <QueryClientProvider client={queryClient}>
+        <QueryClientProvider client={mockQueryClient}>
           <AbsenceList />
         </QueryClientProvider>
       );
@@ -126,7 +126,7 @@ describe("AbsenceList", () => {
       (fetchAbsences as jest.Mock).mockReturnValue(mockAbsenceData);
       const user = userEvent.setup();
       render(
-        <QueryClientProvider client={queryClient}>
+        <QueryClientProvider client={mockQueryClient}>
           <AbsenceList />
         </QueryClientProvider>
       );
@@ -143,7 +143,7 @@ describe("AbsenceList", () => {
       (fetchAbsences as jest.Mock).mockReturnValue(mockAbsenceData);
       const user = userEvent.setup();
       render(
-        <QueryClientProvider client={queryClient}>
+        <QueryClientProvider client={mockQueryClient}>
           <AbsenceList />
         </QueryClientProvider>
       );
@@ -160,7 +160,7 @@ describe("AbsenceList", () => {
       (fetchAbsences as jest.Mock).mockReturnValue(mockAbsenceData);
       const user = userEvent.setup();
       render(
-        <QueryClientProvider client={queryClient}>
+        <QueryClientProvider client={mockQueryClient}>
           <AbsenceList />
         </QueryClientProvider>
       );
@@ -177,7 +177,7 @@ describe("AbsenceList", () => {
       (fetchAbsences as jest.Mock).mockReturnValue(mockAbsenceData);
       const user = userEvent.setup();
       render(
-        <QueryClientProvider client={queryClient}>
+        <QueryClientProvider client={mockQueryClient}>
           <AbsenceList />
         </QueryClientProvider>
       );
