@@ -6,7 +6,7 @@ import { sortAbsences } from "../../utils/Sorting/sortAbsences";
 import { Absence } from "../../types";
 
 const AbsenceList = () => {
-  const [sortedColumn, setSortedColumn] = useState<string>("");
+  const [sortedColumn, setSortedColumn] = useState<string>("startDate");
   const [sortedDirection, setSortedDirection] = useState<string>("DESC");
 
   const { data, isLoading }: UseQueryResult<Absence[], Error> = useQuery({
@@ -21,7 +21,7 @@ const AbsenceList = () => {
   const handleSortClick = () => {
     if (sortedDirection === "ASC") {
       setSortedDirection("DESC");
-    } else if (sortedDirection === "DESC") {
+    } else if (sortedDirection === "DESC" || !sortedDirection) {
       setSortedDirection("ASC");
     }
   };
