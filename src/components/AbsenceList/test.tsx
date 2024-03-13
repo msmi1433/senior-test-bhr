@@ -54,10 +54,10 @@ const mockAbsenceData = sortAbsences(
     {
       id: 10,
       startDate: new Date(
-        "Sun Apr 19 2022 10:17:57 GMT+0000 (Greenwich Mean Time"
+        "Sun Apr 19 2022 10:17:57 GMT+0000 (Greenwich Mean Time)"
       ),
       endDate: new Date(
-        "Sat May 2 2022 15:56:10 GMT+0000 (Greenwich Mean Time"
+        "Sat May 2 2022 15:56:10 GMT+0000 (Greenwich Mean Time)"
       ),
       days: 13,
       absenceType: "ANNUAL_LEAVE",
@@ -74,15 +74,19 @@ const mockAbsenceData = sortAbsences(
   "DESC"
 );
 
+const renderAbsencesList = () => {
+  (fetchAbsences as jest.Mock).mockReturnValue(mockAbsenceData);
+  render(
+    <QueryClientProvider client={mockQueryClient}>
+      <AbsenceList />
+    </QueryClientProvider>
+  );
+};
+
 describe("AbsenceList", () => {
   test("renders list of absences", async () => {
-    (fetchAbsences as jest.Mock).mockReturnValue(mockAbsenceData);
+    renderAbsencesList();
 
-    render(
-      <QueryClientProvider client={mockQueryClient}>
-        <AbsenceList />
-      </QueryClientProvider>
-    );
     const table = await screen.findByRole("table");
     const { findAllByRole } = within(table);
     const items = await findAllByRole("row");
@@ -90,12 +94,8 @@ describe("AbsenceList", () => {
   });
 
   test("renders list with correct end dates", async () => {
-    (fetchAbsences as jest.Mock).mockReturnValue(mockAbsenceData);
-    render(
-      <QueryClientProvider client={mockQueryClient}>
-        <AbsenceList />
-      </QueryClientProvider>
-    );
+    renderAbsencesList();
+
     const table = await screen.findByRole("table");
     const { getByText } = within(table);
     const rahafDate = getByText("06/06/2022");
@@ -106,13 +106,10 @@ describe("AbsenceList", () => {
 
   describe("Sort options", () => {
     test("Can sort by name", async () => {
-      (fetchAbsences as jest.Mock).mockReturnValue(mockAbsenceData);
       const user = userEvent.setup();
-      render(
-        <QueryClientProvider client={mockQueryClient}>
-          <AbsenceList />
-        </QueryClientProvider>
-      );
+
+      renderAbsencesList();
+
       const table = await screen.findByRole("table");
       const { findAllByRole } = within(table);
       await user.click(screen.getByText("Name"));
@@ -123,13 +120,10 @@ describe("AbsenceList", () => {
       expect(items[1]).toHaveTextContent("Raniya");
     });
     test("Can sort by absence type", async () => {
-      (fetchAbsences as jest.Mock).mockReturnValue(mockAbsenceData);
       const user = userEvent.setup();
-      render(
-        <QueryClientProvider client={mockQueryClient}>
-          <AbsenceList />
-        </QueryClientProvider>
-      );
+
+      renderAbsencesList();
+
       const table = await screen.findByRole("table");
       const { findAllByRole } = within(table);
       await user.click(screen.getByText("Absence Type"));
@@ -140,13 +134,10 @@ describe("AbsenceList", () => {
       expect(items[1]).toHaveTextContent("SICKNESS");
     });
     test("Can sort by start date", async () => {
-      (fetchAbsences as jest.Mock).mockReturnValue(mockAbsenceData);
       const user = userEvent.setup();
-      render(
-        <QueryClientProvider client={mockQueryClient}>
-          <AbsenceList />
-        </QueryClientProvider>
-      );
+
+      renderAbsencesList();
+
       const table = await screen.findByRole("table");
       const { findAllByRole } = within(table);
       await user.click(screen.getByText("Start Date"));
@@ -157,13 +148,10 @@ describe("AbsenceList", () => {
       expect(items[1]).toHaveTextContent("28/05/2022");
     });
     test("Can sort by end date", async () => {
-      (fetchAbsences as jest.Mock).mockReturnValue(mockAbsenceData);
       const user = userEvent.setup();
-      render(
-        <QueryClientProvider client={mockQueryClient}>
-          <AbsenceList />
-        </QueryClientProvider>
-      );
+
+      renderAbsencesList();
+
       const table = await screen.findByRole("table");
       const { findAllByRole } = within(table);
       await user.click(screen.getByText("End Date"));
@@ -174,13 +162,10 @@ describe("AbsenceList", () => {
       expect(items[1]).toHaveTextContent("06/06/2022");
     });
     test("Can sort by approval status", async () => {
-      (fetchAbsences as jest.Mock).mockReturnValue(mockAbsenceData);
       const user = userEvent.setup();
-      render(
-        <QueryClientProvider client={mockQueryClient}>
-          <AbsenceList />
-        </QueryClientProvider>
-      );
+
+      renderAbsencesList();
+
       const table = await screen.findByRole("table");
       const { findAllByRole } = within(table);
       await user.click(screen.getByText("Approval Status"));
