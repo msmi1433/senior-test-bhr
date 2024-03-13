@@ -1,23 +1,83 @@
-import { useQuery } from "@tanstack/react-query";
+import { UseQueryResult, useQuery } from "@tanstack/react-query";
 import { fetchAbsences } from "../../services/api/apiCalls";
 import AbsenceItem from "../Absence";
+import { useState, useCallback } from "react";
+import { sortAbsences } from "../../utils/Sorting/sortAbsences";
+import { Absence } from "../../types";
 
 const AbsenceList = () => {
-  const { data } = useQuery({
+  const [sortedColumn, setSortedColumn] = useState<string>("startDate");
+  const [sortedDirection, setSortedDirection] = useState<string>("DESC");
+
+  const { data, isLoading }: UseQueryResult<Absence[], Error> = useQuery({
     queryKey: ["absences"],
     queryFn: fetchAbsences,
+    select: useCallback(
+      (data: Absence[]) => sortAbsences(data, sortedColumn, sortedDirection),
+      [sortedColumn, sortedDirection]
+    ),
   });
+
+  const handleSortClick = () => {
+    if (sortedDirection === "ASC") {
+      setSortedDirection("DESC");
+    } else if (sortedDirection === "DESC" || !sortedDirection) {
+      setSortedDirection("ASC");
+    }
+  };
+
+  if (isLoading) return <p>Loading</p>;
 
   return (
     <div>
       <table className="w-full">
         <thead>
           <tr className="flex justify-start gap-10 text-left">
-            <th className="w-1/5">Name</th>
-            <th className="w-1/5">Absence Type</th>
-            <th className="w-1/5">Start Date</th>
-            <th className="w-1/5">End Date</th>
-            <th className="w-1/5">Approval Status</th>
+            <th
+              className="w-1/5"
+              onClick={() => {
+                setSortedColumn("name");
+                handleSortClick();
+              }}
+            >
+              Name
+            </th>
+            <th
+              className="w-1/5"
+              onClick={() => {
+                setSortedColumn("absenceType");
+                handleSortClick();
+              }}
+            >
+              Absence Type
+            </th>
+            <th
+              className="w-1/5"
+              onClick={() => {
+                setSortedColumn("startDate");
+                handleSortClick();
+              }}
+            >
+              Start Date
+            </th>
+            <th
+              className="w-1/5"
+              onClick={() => {
+                setSortedColumn("endDate");
+                handleSortClick();
+              }}
+            >
+              End Date
+            </th>
+            <th
+              className="w-1/5"
+              onClick={() => {
+                setSortedColumn("approved");
+                handleSortClick();
+              }}
+            >
+              Approval Status
+            </th>
           </tr>
         </thead>
         <tbody>

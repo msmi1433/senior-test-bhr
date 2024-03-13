@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Conflict, Absence } from "../../types";
+import { addDays } from "date-fns";
 
 const api = axios.create({
   baseURL: "https://front-end-kata.brighthr.workers.dev/api/",
@@ -22,7 +23,17 @@ export const fetchAbsences = async (): Promise<Absence[]> => {
     const absencesWithConflicts = Promise.all(
       data.map(async (absence: Absence) => {
         const { conflicts } = await fetchConflicts(absence.id);
-        return { ...absence, conflicts };
+        const formattedStartDate = new Date(absence.startDate);
+        const formattedEndDate = addDays(
+          new Date(absence.startDate),
+          absence.days
+        );
+        return {
+          ...absence,
+          conflicts,
+          startDate: formattedStartDate,
+          endDate: formattedEndDate,
+        };
       })
     );
     return await absencesWithConflicts;
